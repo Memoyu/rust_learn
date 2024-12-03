@@ -1,0 +1,25 @@
+[package]
+name = "ssl_deploy_demo"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+aliyun-openapi-core-rust-sdk = "1.1.0"
+anyhow = "1.0.93"
+clap = { version = "4.5.21", features = ["derive"] }
+env_logger = "0.11.5"
+log = "0.4.22"
+qiniu-credential = "0.2.4"
+reqwest = { version = "0.12.9", features = ["json"] }
+serde = { version = "1.0.215", features = ["derive"] }
+serde_json = "1.0.133"
+tokio = { version = "1.41.1", features = [
+    "io-std",
+    "io-util",
+    "rt-multi-thread",
+    "time",
+    "net",
+    "sync",
+    "macros",
+] }
+toml = "0.8.19"
