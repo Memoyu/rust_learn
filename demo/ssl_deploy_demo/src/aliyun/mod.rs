@@ -2,8 +2,8 @@ use super::*;
 use aliyun_openapi_core_rust_sdk::client::rpc::RPClient;
 use serde::{Deserialize, Serialize};
 
-pub struct AliyunClient<'a> {
-    conf: &'a config::AccessConfig,
+pub struct AliyunClient {
+    conf: config::AccessConfig,
 }
 
 #[derive(Serialize, Deserialize, Debug)]
@@ -15,8 +15,8 @@ pub struct CertificateState {
     certificate: String,
 }
 
-impl<'a> AliyunClient<'a> {
-    pub fn new(conf: &'a config::AccessConfig) -> Self {
+impl AliyunClient {
+    pub fn new(conf: config::AccessConfig) -> Self {
         AliyunClient { conf }
     }
 
