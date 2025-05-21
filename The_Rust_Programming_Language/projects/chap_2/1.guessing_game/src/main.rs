@@ -15,10 +15,12 @@ fn main() {
         let mut guess = String::new();
 
         // 获取输入
+        // read_line 每次都是append的方式进行读取到guess中，如果将guess new 提到loop外，则会有问题
         io::stdin()
             .read_line(&mut guess)
             .expect("Failed to read line");
 
+        println!("当前输入：{}", guess);
         // 处理非法输入
         let guess: u32 = match guess.trim().parse() {
             Ok(num) => num,
