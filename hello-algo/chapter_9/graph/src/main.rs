@@ -1,5 +1,5 @@
 use crate::{
-    adjacency_list::{GraphAdjList, Vertex},
+    adjacency_list::{GraphAdjList, Vertex, vals_to_vets},
     adjacency_matrix::GraphAdjMat,
 };
 
@@ -19,19 +19,27 @@ fn main() {
     adj_mat.print();
 
     // 邻接表
+    let v = vals_to_vets(vec![1, 3, 2, 5, 4, 6]);
     let edges = vec![
-        [Vertex::from(0), Vertex::from(1)],
-        [Vertex::from(0), Vertex::from(3)],
-        [Vertex::from(1), Vertex::from(2)],
-        [Vertex::from(2), Vertex::from(3)],
-        [Vertex::from(2), Vertex::from(4)],
-        [Vertex::from(3), Vertex::from(4)],
+        [v[0], v[1]],
+        [v[0], v[3]],
+        [v[1], v[2]],
+        [v[2], v[3]],
+        [v[2], v[4]],
+        [v[3], v[4]],
     ];
+
     let mut adj_list = GraphAdjList::new(edges);
     adj_list.print();
     // 添加顶点
-    adj_list.add_vertex(Vertex::from(6));
+    adj_list.add_vertex(v[5]);
     // 添加边
-    adj_list.add_edge(Vertex::from(5), Vertex::from(3));
+    adj_list.add_edge(v[5], v[4]);
     adj_list.print();
+
+    let bfs = adj_list.bfs(v[1]);
+    println!("{:?}", bfs);
+
+    let dfs = adj_list.dfs(v[1]);
+    println!("{:?}", dfs)
 }

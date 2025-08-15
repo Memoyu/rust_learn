@@ -1,6 +1,6 @@
-use std::collections::HashMap;
+use std::collections::{HashMap, HashSet, VecDeque};
 
-#[derive(Copy, Clone, Hash, PartialEq, Eq)]
+#[derive(Copy, Clone, Hash, PartialEq, Eq, Debug)]
 pub struct Vertex {
     pub val: i32,
 }
@@ -110,6 +110,68 @@ impl GraphAdjList {
         for (vertex, list) in &self.adj_list {
             let list = list.iter().map(|vertex| vertex.val).collect::<Vec<i32>>();
             println!("{}: {:?},", vertex.val, list);
+        }
+    }
+
+    /// 广度优先遍历
+    pub fn bfs(&self, start_vet: Vertex) -> Vec<Vertex> {
+        let mut res = Vec::new();
+        // 哈希集合，用于记录已经被访问过的顶点
+        let mut visited = HashSet::new();
+        visited.insert(start_vet);
+
+        // 队列，用于实现先进先出
+        let mut que = VecDeque::new();
+        que.push_back(start_vet);
+
+        while !que.is_empty() {
+            // 顶点出队，放入结果集
+            let vet = que.pop_front().unwrap();
+            res.push(vet);
+            // 遍历该顶点的所有邻接顶点
+            if let Some(list) = self.adj_list.get(&vet) {
+                for &v in list {
+                    // 已访问过则跳过
+                    if visited.contains(&v) {
+                        continue;
+                    }
+
+                    // 顶点入队，记录访问
+                    que.push_back(v);
+                    visited.insert(v);
+                }
+            }
+        }
+
+        res
+    }
+
+    /// 深度优先遍历
+    pub fn dfs(&self, start_vet: Vertex) -> Vec<Vertex> {
+        let mut res = Vec::new();
+        // 哈希集合，用于记录已经被访问过的顶点
+        let mut visited = HashSet::new();
+        visited.insert(start_vet);
+
+        self.dfs_internal(&mut visited, &mut res, start_vet);
+
+        res
+    }
+
+    /// 深度优先遍历处理函数
+    fn dfs_internal(&self, visited: &mut HashSet<Vertex>, res: &mut Vec<Vertex>, vet: Vertex) {
+        res.push(vet);
+        visited.insert(vet);
+
+        if let Some(list) = self.adj_list.get(&vet) {
+            for &v in list {
+                if visited.contains(&v) {
+                    continue;
+                }
+
+                // 递归访问邻接顶点
+                self.dfs_internal(visited, res, v);
+            }
         }
     }
 }
